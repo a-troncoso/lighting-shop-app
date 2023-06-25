@@ -71,7 +71,7 @@ const Onboarding = () => {
   return (
     <View style={styles.container} onTouchStart={onTouchStart}>
       <ImageBackground source={Img} style={styles.image} />
-      <Stepper />
+      <Stepper current={activeStep} />
       <View>
         {getActiveStep(activeStep)}
         <TouchableHighlight

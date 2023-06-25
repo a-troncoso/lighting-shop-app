@@ -1,17 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View, Animated } from "react-native";
 import Colors from "../../../styles/colors";
-import { Touchable } from "react-native";
 
 const Step = ({ active }) => {
-  return <View style={[styles.step, active && styles.stepActive]} />;
+  return <Animated.View style={[styles.step, active && styles.stepActive]} />;
 };
 
-const Stepper = () => {
+const Stepper = ({ current }) => {
   return (
     <View style={styles.container}>
-      <Step active />
-      <Step />
-      <Step />
+      <Step active={current === 0} />
+      <Step active={current === 1} />
+      <Step active={current === 2} />
     </View>
   );
 };
@@ -21,7 +20,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
   },
-  stepContainer: {},
   step: {
     width: 32,
     height: 4,
