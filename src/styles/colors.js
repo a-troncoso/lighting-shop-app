@@ -1,6 +1,8 @@
 const colors = {
   primary: {
+    40: "#f7edcd",
     50: "#f9eabe",
+    60: "#dbc276",
   },
   secondary: {
     50: "#1d2026",
