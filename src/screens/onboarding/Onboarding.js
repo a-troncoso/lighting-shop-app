@@ -7,10 +7,11 @@ import {
   ImageBackground,
   useWindowDimensions,
 } from "react-native";
-import Stepper from "./components/Stepper";
-import Colors from "../../styles/colors";
-import Img from "./assets/lampara.jpg";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import Stepper from "./components/Stepper";
+import Img from "./assets/lampara.jpg";
+import Colors from "../../styles/colors";
 
 const getStepWelcome = () => {
   return (
@@ -51,6 +52,7 @@ const Onboarding = () => {
   const steps = [getStepWelcome, getStepBuy, getStepShare];
   const [activeStep, setActiveStep] = useState(0);
   const { width } = useWindowDimensions();
+  const navigation = useNavigation();
 
   const onTouchStart = useCallback(({ nativeEvent }) => {
     const { pageX } = nativeEvent;
@@ -68,6 +70,12 @@ const Onboarding = () => {
     return steps[stepNumber]();
   };
 
+  const handlePressButton = () => {
+    navigation.navigate("Private", {
+      screen: "Catalog",
+    });
+  };
+
   return (
     <View style={styles.container} onTouchStart={onTouchStart}>
       <ImageBackground source={Img} style={styles.image} />
@@ -77,7 +85,7 @@ const Onboarding = () => {
         <TouchableHighlight
           underlayColor={Colors.primary[40]}
           style={styles.button}
-          onPress={() => {}}
+          onPress={handlePressButton}
         >
           <>
             <Text>Go to Catalog</Text>
@@ -95,15 +103,6 @@ const Onboarding = () => {
 };
 
 const styles = StyleSheet.create({
-  swipeableContainer: {
-    flex: 1,
-    // borderWidth: 1,
-    // borderColor: "red",
-  },
-  swipeableChildrenContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
   image: {
     position: "absolute",
     top: -60,
