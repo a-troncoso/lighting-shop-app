@@ -89,7 +89,6 @@ const SearchBar = () => {
 
 const SubCatalogNav = () => {
   const [selected, setSelected] = useState("2");
-  console.log("selected", selected);
   const DATA = [
     {
       id: "1",
