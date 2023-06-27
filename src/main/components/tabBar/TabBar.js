@@ -1,6 +1,5 @@
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { MaterialIcons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 import Colors from "../../../styles/colors";
 
@@ -10,8 +9,8 @@ const icons = {
     name: "home",
   },
   Catalog: {
-    lib: MaterialIcons,
-    name: "dashboard",
+    lib: AntDesign,
+    name: "appstore1",
   },
   Shop: {
     lib: FontAwesome5,
@@ -64,14 +63,13 @@ const TabBar = ({ state, descriptors, navigation }) => {
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.button}
           >
             <Icon
               name={icons[label].name}
-              size={24}
+              size={20}
               color={isFocused ? Colors.primary[40] : Colors.gray[70]}
             />
           </TouchableOpacity>
@@ -86,8 +84,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: Colors.secondary[40],
     borderRadius: 24,
-    marginHorizontal: 20,
-    marginBottom: 20,
+    position: "absolute",
+    bottom: 32,
+    left: 32,
+    right: 32,
   },
   button: {
     flex: 1,
