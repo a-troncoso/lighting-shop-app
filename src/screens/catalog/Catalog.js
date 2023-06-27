@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -54,13 +55,14 @@ const Catalog = () => {
         <SearchBar />
       </View>
 
-      <SubCatalog />
+      <SubCatalogNav />
 
       <FlatList
         data={DATA}
         renderItem={({ item }) => <Product item={item} />}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.productList}
         ItemSeparatorComponent={() => (
           <View style={styles.productListSeparator} />
         )}
@@ -85,7 +87,9 @@ const SearchBar = () => {
   );
 };
 
-const SubCatalog = () => {
+const SubCatalogNav = () => {
+  const [selected, setSelected] = useState("2");
+  console.log("selected", selected);
   const DATA = [
     {
       id: "1",
@@ -101,17 +105,36 @@ const SubCatalog = () => {
     },
   ];
 
-  const Item = ({ title }) => (
-    <TouchableOpacity>
-      <Text style={styles.subCatalogItem}>{title}</Text>
+  const Item = ({ title, onPress, isActive }) => (
+    <TouchableOpacity onPress={onPress}>
+      <Text
+        style={StyleSheet.flatten([
+          styles.subCatalogItem,
+          isActive
+            ? styles.activeSubCatalogItem
+            : styles.inactiveSubCatalogItem,
+        ])}
+      >
+        {title}
+      </Text>
     </TouchableOpacity>
   );
+
+  const handlePressItem = (item) => {
+    setSelected(item.id);
+  };
 
   return (
     <View>
       <FlatList
         data={DATA}
-        renderItem={({ item }) => <Item title={item.title} />}
+        renderItem={({ item }) => (
+          <Item
+            title={item.title}
+            onPress={() => handlePressItem(item)}
+            isActive={selected === item.id}
+          />
+        )}
         keyExtractor={(item) => item.id}
         horizontal
         ItemSeparatorComponent={() => (
@@ -119,7 +142,7 @@ const SubCatalog = () => {
             name="dot-single"
             size={16}
             color={Colors.gray[70]}
-            style={{ alignSelf: "center", marginHorizontal: 12 }}
+            style={styles.subCatalogNavSeparator}
           />
         )}
         showsHorizontalScrollIndicator={false}
@@ -137,10 +160,17 @@ const styles = StyleSheet.create({
   catalogHeader: {
     gap: 8,
   },
+  productList: {
+    paddingBottom: 16,
+  },
   productListSeparator: {
     marginVertical: 32,
     height: 1,
     backgroundColor: Colors.gray[90],
+  },
+  subCatalogNavSeparator: {
+    alignSelf: "center",
+    marginHorizontal: 12,
   },
   title: {
     color: Colors.gray[10],
@@ -173,6 +203,13 @@ const styles = StyleSheet.create({
   subCatalogItem: {
     color: Colors.gray[70],
     fontSize: 12,
+    fontWeight: 500,
+  },
+  activeSubCatalogItem: {
+    color: Colors.primary[40],
+  },
+  inactiveSubCatalogItem: {
+    color: Colors.gray[70],
   },
 });
 

@@ -66,6 +66,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.button}
+            key={label}
           >
             <Icon
               name={icons[label].name}

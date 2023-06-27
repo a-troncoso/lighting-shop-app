@@ -12,19 +12,17 @@ const Product = ({ item }) => {
     <View style={styles.container}>
       <View style={styles.featuresImagesContainer}>
         <Features items={["bluetooth", "second", "brightness"]} />
-        <View>
-          <FlatList
-            data={item.images}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <Image source={item.image} style={styles.productImage} />
-            )}
-            contentContainerStyle={styles.imagesList}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            ItemSeparatorComponent={() => <View style={{ width: 48 }} />}
-          />
-        </View>
+        <FlatList
+          data={item.images}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Image source={item.image} style={styles.productImage} />
+          )}
+          contentContainerStyle={styles.imagesList}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={{ width: 48 }} />}
+        />
       </View>
       <View>
         <Text style={styles.productName}>{item.title}</Text>

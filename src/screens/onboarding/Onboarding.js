@@ -66,7 +66,7 @@ const Onboarding = () => {
     });
   }, []);
 
-  const getActiveStep = (stepNumber) => useCallback(steps[stepNumber](), []);
+  const getActiveStep = (stepNumber) => steps[stepNumber]();
 
   const handlePressButton = () => {
     navigation.navigate("Private", {
