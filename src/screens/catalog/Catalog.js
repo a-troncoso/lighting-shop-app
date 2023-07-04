@@ -47,45 +47,19 @@ const DATA = [
   },
 ];
 
-const Catalog = () => {
-  return (
-    <Screen containerStyles={styles.container}>
-      <View style={styles.catalogHeader}>
-        <Text style={styles.title}>Your Light</Text>
-        <SearchBar />
-      </View>
-
-      <SubCatalogNav />
-
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Product item={item} />}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.productList}
-        ItemSeparatorComponent={() => (
-          <View style={styles.productListSeparator} />
-        )}
-      />
-    </Screen>
-  );
-};
-
-const SearchBar = () => {
-  return (
-    <View style={styles.searchBar}>
-      <TextInput
-        placeholder="Search..."
-        placeholderTextColor={Colors.gray[70]}
-        style={styles.input}
-        autoCapitalize="none"
-      />
-      <TouchableOpacity style={styles.buttonFilter}>
-        <SimpleLineIcons name="equalizer" size={12} color={Colors.white} />
-      </TouchableOpacity>
-    </View>
-  );
-};
+const getSearchBar = () => (
+  <View style={styles.searchBar}>
+    <TextInput
+      placeholder="Search..."
+      placeholderTextColor={Colors.gray[70]}
+      style={styles.input}
+      autoCapitalize="none"
+    />
+    <TouchableOpacity style={styles.buttonFilter}>
+      <SimpleLineIcons name="equalizer" size={12} color={Colors.white} />
+    </TouchableOpacity>
+  </View>
+);
 
 const SubCatalogNav = () => {
   const [selected, setSelected] = useState("2");
@@ -104,7 +78,7 @@ const SubCatalogNav = () => {
     },
   ];
 
-  const Item = ({ title, onPress, isActive }) => (
+  const getItem = ({ title, onPress, isActive }) => (
     <TouchableOpacity onPress={onPress}>
       <Text
         style={StyleSheet.flatten([
@@ -119,6 +93,15 @@ const SubCatalogNav = () => {
     </TouchableOpacity>
   );
 
+  const getItemSeparator = () => (
+    <Entypo
+      name="dot-single"
+      size={16}
+      color={Colors.gray[70]}
+      style={styles.subCatalogNavSeparator}
+    />
+  );
+
   const handlePressItem = (item) => {
     setSelected(item.id);
   };
@@ -127,26 +110,43 @@ const SubCatalogNav = () => {
     <View>
       <FlatList
         data={DATA}
-        renderItem={({ item }) => (
-          <Item
-            title={item.title}
-            onPress={() => handlePressItem(item)}
-            isActive={selected === item.id}
-          />
-        )}
+        renderItem={({ item }) =>
+          getItem({
+            title: item.title,
+            onPress: () => handlePressItem(item),
+            isActive: selected === item.id,
+          })
+        }
         keyExtractor={(item) => item.id}
         horizontal
-        ItemSeparatorComponent={() => (
-          <Entypo
-            name="dot-single"
-            size={16}
-            color={Colors.gray[70]}
-            style={styles.subCatalogNavSeparator}
-          />
-        )}
+        ItemSeparatorComponent={getItemSeparator}
         showsHorizontalScrollIndicator={false}
       />
     </View>
+  );
+};
+
+const Catalog = () => {
+  return (
+    <Screen containerStyles={styles.container}>
+      <View style={styles.catalogHeader}>
+        <Text style={styles.title}>Your Light</Text>
+        {getSearchBar()}
+      </View>
+
+      <SubCatalogNav />
+
+      <FlatList
+        data={DATA}
+        renderItem={({ item }) => <Product item={item} />}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.productList}
+        ItemSeparatorComponent={() => (
+          <View style={styles.productListSeparator} />
+        )}
+      />
+    </Screen>
   );
 };
 

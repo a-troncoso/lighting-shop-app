@@ -1,36 +1,19 @@
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import {
   Feather,
   MaterialCommunityIcons,
   Foundation,
 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../../../../styles/colors";
-
-const Product = ({ item }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.featuresImagesContainer}>
-        <Features items={["bluetooth", "second", "brightness"]} />
-        <FlatList
-          data={item.images}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Image source={item.image} style={styles.productImage} />
-          )}
-          contentContainerStyle={styles.imagesList}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ width: 48 }} />}
-        />
-      </View>
-      <View>
-        <Text style={styles.productName}>{item.title}</Text>
-        <Text style={styles.productPrice}>$ {item.price}</Text>
-      </View>
-    </View>
-  );
-};
 
 const Features = ({ items }) => {
   const iconByFeature = {
@@ -64,6 +47,45 @@ const Features = ({ items }) => {
         renderItem={getFeature}
         ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
       />
+    </View>
+  );
+};
+
+const Product = ({ item }) => {
+  const navigation = useNavigation();
+
+  const getProductItem = ({ item, onPress }) => (
+    <TouchableOpacity onPress={onPress}>
+      <Image source={item.image} style={styles.productImage} />
+    </TouchableOpacity>
+  );
+
+  const handlePressItem = (item) => {
+    navigation.navigate("Private", {
+      screen: "ProductDetails",
+    });
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.featuresImagesContainer}>
+        <Features items={["bluetooth", "second", "brightness"]} />
+        <FlatList
+          data={item.images}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) =>
+            getProductItem({ item, onPress: handlePressItem })
+          }
+          contentContainerStyle={styles.imagesList}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={{ width: 48 }} />}
+        />
+      </View>
+      <View>
+        <Text style={styles.productName}>{item.title}</Text>
+        <Text style={styles.productPrice}>$ {item.price}</Text>
+      </View>
     </View>
   );
 };
